@@ -1,64 +1,66 @@
-# Copilot Instructions for Uptime Kuma
+> 🌐 本文档由 [louislam/uptime-kuma](https://github.com/louislam/uptime-kuma) 翻译,英文原版见原项目。
 
-Warning: Only maintainers of Uptime Kuma can use this instructions, for other contributors, must read AGENTS.md and CLAUDE.md to avoid to get banned because of AI slop.
+# Uptime Kuma 的 Copilot 使用说明
 
-## Copilot's Goals/Tasks
+警告:只有 Uptime Kuma 的维护者可以使用本说明;其他贡献者必须先阅读 AGENTS.md 和 CLAUDE.md,以免因 AI 垃圾贡献(AI slop)被封禁。
 
-- Check spelling
-- Do not show "Pull Request Overview"
-- You do not have to reply if there are no issues
+## Copilot 的目标/任务
 
-## Repository Overview
+- 检查拼写
+- 不要输出「Pull Request Overview」
+- 没有问题时无需回复
 
-**Uptime Kuma** is a self-hosted monitoring tool for HTTP(s), TCP, DNS, Docker, etc. Built with Vue 3 (frontend) and Node.js/Express (backend), using Socket.IO for real-time communication.
+## 仓库概览
 
-- **Languages**: JavaScript, Vue 3, TypeScript (limited), HTML, CSS/SCSS
-- **Backend**: Node.js >= 20.4, Express.js, Socket.IO, SQLite
-- **Frontend**: Vue 3, Vite, Bootstrap 5, Chart.js
-- **Package Manager**: npm with `legacy-peer-deps=true` (.npmrc)
+**Uptime Kuma** 是一款支持 HTTP(s)、TCP、DNS、Docker 等协议的自托管监控工具。前端基于 Vue 3,后端基于 Node.js/Express,使用 Socket.IO 进行实时通信。
 
-## Build & Validation Commands
+- **语言**:JavaScript、Vue 3、TypeScript(少量)、HTML、CSS/SCSS
+- **后端**:Node.js >= 20.4、Express.js、Socket.IO、SQLite
+- **前端**:Vue 3、Vite、Bootstrap 5、Chart.js
+- **包管理器**:npm,启用 `legacy-peer-deps=true`(.npmrc)
 
-### Prerequisites
+## 构建与验证命令
 
-- Node.js >= 20.4.0, npm >= 9.3, Git
+### 前置条件
 
-### Essential Command Sequence
+- Node.js >= 20.4.0、npm >= 9.3、Git
 
-1. **Install Dependencies**:
+### 核心命令序列
+
+1. **安装依赖**:
 
    ```bash
    npm ci  # Use npm ci NOT npm install (~60-90 seconds)
    ```
 
-2. **Linting** (required before committing):
+2. **代码检查**(提交前必做):
 
    ```bash
    npm run lint         # Both linters (~15-30 seconds)
    npm run lint:prod    # For production (zero warnings)
    ```
 
-3. **Build Frontend**:
+3. **构建前端**:
 
    ```bash
    npm run build  # Takes ~90-120 seconds, builds to dist/
    ```
 
-4. **Run Tests**:
+4. **运行测试**:
    ```bash
    npm run test-backend  # Backend tests (~50-60 seconds)
    npm test              # All tests
    ```
 
-### Development Workflow
+### 开发工作流
 
 ```bash
 npm run dev  # Starts frontend (port 3000) and backend (port 3001)
 ```
 
-## Project Architecture
+## 项目架构
 
-### Directory Structure
+### 目录结构
 
 ```
 /
@@ -92,87 +94,87 @@ npm run dev  # Starts frontend (port 3000) and backend (port 3001)
 └── extra/              Utility scripts
 ```
 
-### Key Configuration Files
+### 关键配置文件
 
-- **package.json**: Scripts, dependencies, Node.js version requirement
-- **.eslintrc.js**: ESLint rules (4 spaces, double quotes, unix line endings, JSDoc required)
-- **.stylelintrc**: Stylelint rules (4 spaces indentation)
-- **.editorconfig**: Editor settings (4 spaces, LF, UTF-8)
-- **tsconfig-backend.json**: TypeScript config for backend (only src/util.ts)
-- **.npmrc**: `legacy-peer-deps=true` (required for dependency resolution)
-- **.gitignore**: Excludes node_modules, dist, data, tmp, private
+- **package.json**:脚本、依赖、Node.js 版本要求
+- **.eslintrc.js**:ESLint 规则(4 空格缩进、双引号、Unix 换行符、必须写 JSDoc)
+- **.stylelintrc**:Stylelint 规则(4 空格缩进)
+- **.editorconfig**:编辑器设置(4 空格、LF、UTF-8)
+- **tsconfig-backend.json**:后端 TypeScript 配置(仅 src/util.ts)
+- **.npmrc**:`legacy-peer-deps=true`(依赖解析必需)
+- **.gitignore**:排除 node_modules、dist、data、tmp、private
 
-### Code Style (strictly enforced by linters)
+### 代码风格(linter 强制执行)
 
-- 4 spaces indentation, double quotes, Unix line endings (LF), semicolons required
-- **Naming**: JavaScript/TypeScript (camelCase), SQLite (snake_case), CSS/SCSS (kebab-case)
-- JSDoc required for all functions/methods
+- 4 空格缩进、双引号、Unix 换行符(LF)、必须带分号
+- **命名**:JavaScript/TypeScript(camelCase)、SQLite(snake_case)、CSS/SCSS(kebab-case)
+- 所有函数/方法必须编写 JSDoc
 
-## CI/CD Workflows
+## CI/CD 工作流
 
-**auto-test.yml** (runs on PR/push to master/1.23.X):
+**auto-test.yml**(在 PR/push 到 master/1.23.X 时运行):
 
-- Linting, building, backend tests on multiple OS/Node versions (15 min timeout)
-- E2E Playwright tests
+- 在多个操作系统/Node 版本上执行 lint、构建、后端测试(15 分钟超时)
+- Playwright 端到端测试
 
-**validate.yml**: Validates JSON/YAML files, language files, knex migrations
+**validate.yml**:校验 JSON/YAML 文件、语言文件、knex 迁移
 
-**PR Requirements**: All linters pass, tests pass, code follows style guidelines
+**PR 要求**:所有 linter 通过、测试通过、代码符合风格规范
 
-## Common Issues
+## 常见问题
 
-1. **npm install vs npm ci**: Always use `npm ci` for reproducible builds
-2. **TypeScript errors**: `npm run tsc` shows 1400+ errors - ignore them, they don't affect builds
-3. **Stylelint warnings**: Deprecation warnings are expected, ignore them
-4. **Test failures**: Always run `npm run build` before running tests
-5. **Port conflicts**: Dev server uses ports 3000 and 3001
-6. **First run**: Server shows "db-config.json not found" - this is expected, starts setup wizard
+1. **npm install 与 npm ci**:为保证构建可复现,始终使用 `npm ci`
+2. **TypeScript 报错**:`npm run tsc` 会显示 1400+ 个错误——忽略即可,不影响构建
+3. **Stylelint 警告**:出现弃用警告属预期行为,忽略即可
+4. **测试失败**:运行测试前必须先执行 `npm run build`
+5. **端口冲突**:开发服务器占用 3000 和 3001 端口
+6. **首次运行**:服务器提示 "db-config.json not found" 属预期行为,随后会进入安装向导
 
-## Translations
+## 翻译
 
-- Managed via Weblate. Add keys to `src/lang/en.json` only
-- Don't include other languages in PRs
-- Use `$t("key")` in Vue templates
+- 通过 Weblate 管理。只需向 `src/lang/en.json` 添加键
+- 不要在 PR 中包含其他语言
+- 在 Vue 模板中使用 `$t("key")`
 
-## Database
+## 数据库
 
-- Primary: SQLite (also supports MariaDB/MySQL)
-- Migrations in `db/knex_migrations/` using Knex.js
-- Filename format validated by CI: `node ./extra/check-knex-filenames.mjs`
+- 主数据库:SQLite(也支持 MariaDB/MySQL)
+- 迁移脚本位于 `db/knex_migrations/`,基于 Knex.js
+- 文件名格式由 CI 校验:`node ./extra/check-knex-filenames.mjs`
 
-## Testing
+## 测试
 
-- **Backend**: Node.js test runner, fast unit tests
-- **E2E**: Playwright (requires `npx playwright install` first time)
-- Test data in `data/playwright-test`
+- **后端**:Node.js test runner,快速的单元测试
+- **端到端**:Playwright(首次使用需先执行 `npx playwright install`)
+- 测试数据位于 `data/playwright-test`
 
-## Adding New Features
+## 新增功能
 
-### New Notification Provider
+### 新的通知渠道
 
-Files to modify:
+需要修改的文件:
 
-1. `server/notification-providers/PROVIDER_NAME.js` (backend logic)
-2. `server/notification.js` (register provider)
-3. `src/components/notifications/PROVIDER_NAME.vue` (frontend UI)
-4. `src/components/notifications/index.js` (register frontend)
-5. `src/components/NotificationDialog.vue` (add to list)
-6. `src/lang/en.json` (add translation keys)
+1. `server/notification-providers/PROVIDER_NAME.js`(后端逻辑)
+2. `server/notification.js`(注册渠道)
+3. `src/components/notifications/PROVIDER_NAME.vue`(前端界面)
+4. `src/components/notifications/index.js`(注册前端)
+5. `src/components/NotificationDialog.vue`(加入列表)
+6. `src/lang/en.json`(添加翻译键)
 
-### New Monitor Type
+### 新的监控类型
 
-Files to modify:
+需要修改的文件:
 
-1. `server/monitor-types/MONITORING_TYPE.js` (backend logic)
-2. `server/uptime-kuma-server.js` (register monitor type)
-3. `src/pages/EditMonitor.vue` (frontend UI)
-4. `src/lang/en.json` (add translation keys)
+1. `server/monitor-types/MONITORING_TYPE.js`(后端逻辑)
+2. `server/uptime-kuma-server.js`(注册监控类型)
+3. `src/pages/EditMonitor.vue`(前端界面)
+4. `src/lang/en.json`(添加翻译键)
 
-## Important Notes
+## 重要说明
 
-1. **Trust these instructions** - based on testing. Search only if incomplete/incorrect
-2. **Dependencies**: 5 known vulnerabilities (3 moderate, 2 high) - acknowledged, don't fix without discussion
-3. **Git Branches**: `master` (v2 development), `1.23.X` (v1 maintenance)
-4. **Node Version**: >= 20.4.0 required
-5. **Socket.IO**: Most backend logic in `server/socket-handlers/`, not REST
-6. **Never commit**: `data/`, `dist/`, `tmp/`, `private/`, `node_modules/`
+1. **信任本说明**——内容基于实际测试。只有在其不完整/不正确时才另行搜索
+2. **依赖**:存在 5 个已知漏洞(3 个中等、2 个高危)——已确认知悉,未经讨论不要修复
+3. **Git 分支**:`master`(v2 开发)、`1.23.X`(v1 维护)
+4. **Node 版本**:要求 >= 20.4.0
+5. **Socket.IO**:大部分后端逻辑位于 `server/socket-handlers/`,而非 REST
+6. **绝不提交**:`data/`、`dist/`、`tmp/`、`private/`、`node_modules/`
