@@ -1,224 +1,187 @@
-# Uptime Kuma Review Guidelines
+> 🌐 本文档由 [louislam/uptime-kuma](https://github.com/louislam/uptime-kuma) 翻译,英文原版见原项目。
+
+# Uptime Kuma 审查指南
 
 > [!NOTE]
-> These review guidelines are a work in progress, and are frequently
-> updated and improved, so please check back frequently for the latest version.
+> 本审查指南仍在持续完善中,会频繁更新和改进,请经常回来查看最新版本。
 
-## Preparing for a PR Review
+## PR 审查前的准备
 
-### Read the PR description carefully
+### 仔细阅读 PR 描述
 
-Make sure you understand what the PR is trying to solve or implement. This could
-be a bug fix, a new feature, or a refactor.
+确保你理解这个 PR 想解决或实现什么:可能是 bug 修复、新功能,也可能是重构。
 
-### Check the linked issues
+### 查看关联的 issue
 
-If the PR has a linked issue, read it to better understand the context and the
-reason for the change.
+如果 PR 关联了 issue,请阅读它,以便更好地理解改动背景和原因。
 
-### Check the test coverage
+### 检查测试覆盖
 
-Make sure relevant tests have been added or modified. If the PR adds new
-functionality, there should be tests covering the change.
+确认已新增或修改相关测试。如果 PR 添加了新功能,应当有覆盖该改动的测试。
 
-## General Review
+## 通用审查
 
-### Code formatting and style
+### 代码格式与风格
 
-Check if the code adheres to the style guidelines of the project. Make sure
-there are no unused imports, variables, `console.log` for debugging in the PR.
+检查代码是否符合项目的风格规范。确认 PR 中没有未使用的 import、变量,以及用于调试的 `console.log`。
 
-- [Project Style](../CONTRIBUTING.md#project-styles)
-- [Coding Style](../CONTRIBUTING.md#coding-styles)
+- [项目风格](../CONTRIBUTING.md#project-styles)
+- [编码风格](../CONTRIBUTING.md#coding-styles)
 
-### Readability and maintainability
+### 可读性与可维护性
 
-Is the code easy to understand for other developers? Make sure complex parts are
-explained with comments about **_why_** something is done, and use clear names
-to show **_how_**. Are variables and functions well-named, and is there a
-consistent naming style? Also, check if the code is maintainable:
+其他开发者能轻松看懂这段代码吗?确保复杂的部分有注释解释**_为什么_**这样做,并用清晰的命名体现**_怎么做_**。变量和函数命名是否恰当、命名风格是否一致?同时检查代码是否可维护:
 
-- Is it unnecessarily complex? Could it be simplified?
-- Does it follow the **[Single Responsibility Principle (SRP)]**?
+- 是否存在不必要的复杂度?能否简化?
+- 是否遵循**[单一职责原则(SRP)]**?
 
-[Single Responsibility Principle (SRP)]: https://www.geeksforgeeks.org/single-responsibility-in-solid-design-principle/
+[单一职责原则(SRP)]: https://www.geeksforgeeks.org/single-responsibility-in-solid-design-principle/
 
-### Documentation
+### 文档
 
-Is the PR well documented? Check if the descriptions of functions, parameters,
-and return values are present. Are there any changes needed to the README or
-other documentation, for example, if new features or configurations are
-introduced?
+PR 的文档是否完善?检查函数、参数、返回值的说明是否齐全。如果引入了新功能或新配置,README 或其他文档是否需要相应更新?
 
-## Functional Review
+## 功能审查
 
-### Testing
+### 测试
 
-Ensure that the new code is properly tested. This includes unit tests,
-integration tests, and if necessary, end-to-end tests.
+确保新代码经过充分测试,包括单元测试、集成测试,必要时还包括端到端测试。
 
-### Test results
+### 测试结果
 
-Did all tests pass in the CI pipeline (e.g., GitHub Actions, Travis, CircleCI)?
+CI 流水线(如 GitHub Actions、Travis、CircleCI)中的所有测试是否通过?
 
-### Testing in different environments
+### 多环境测试
 
-If the changes depend on certain environments or configurations, verify that the
-code has been tested in various environments (e.g., local development, staging,
-production).
+如果改动依赖特定的环境或配置,请确认代码已在多种环境下测试过(例如本地开发、预发布、生产)。
 
-- [How to test Pull Requests](https://github.com/louislam/uptime-kuma/wiki/Test-Pull-Requests)
+- [如何测试 Pull Request](https://github.com/louislam/uptime-kuma/wiki/Test-Pull-Requests)
 
-### Edge cases and regressions
+### 边界情况与回归
 
-- Are there test cases for possible edge cases?
-- Could this change introduce regressions in other parts of the system?
+- 可能的边界情况是否有对应的测试用例?
+- 这项改动是否可能在系统其他部分引入回归?
 
-## Security
+## 安全
 
-### Security issues
+### 安全问题
 
-Check for potential security problems, such as SQL injection, XSS attacks, or
-unsafe API calls. Are there passwords, tokens, or other sensitive data left in
-the code by mistake?
+检查潜在的安全问题,例如 SQL 注入、XSS 攻击或不安全的 API 调用。代码中是否不小心残留了密码、token 或其他敏感数据?
 
-### Authentication and authorization
+### 认证与授权
 
-Is access to sensitive data or functionality properly secured? Check that the
-correct authorization and authentication mechanisms are in place.
+对敏感数据或功能的访问是否得到妥善保护?检查是否部署了正确的授权与认证机制。
 
-### Security Best Practices
+### 安全最佳实践
 
-- Ensure that the code is free from common vulnerabilities like **SQL
-  injection**, **XSS attacks**, and **insecure API calls**.
-- Check for proper encryption of sensitive data, and ensure that **passwords**
-  or **API tokens** are not hardcoded in the code.
+- 确保代码不存在**SQL 注入**、**XSS 攻击**、**不安全的 API 调用**等常见漏洞。
+- 检查敏感数据是否正确加密,确保**密码**或 **API token** 没有硬编码在代码中。
 
-## Performance
+## 性能
 
-### Performance impact
+### 性能影响
 
-Check if the changes negatively impact performance. This can include factors
-like load times, memory usage, or other performance aspects.
+检查改动是否对性能产生负面影响,例如加载时间、内存占用或其他性能指标。
 
-### Use of external libraries
+### 外部依赖库的使用
 
-- Have the right libraries been chosen?
-- Are there unnecessary dependencies that might reduce performance or increase
-  code complexity?
-- Are these dependencies actively maintained and free of known vulnerabilities?
+- 选择的库是否合适?
+- 是否存在可能降低性能或增加代码复杂度的多余依赖?
+- 这些依赖是否仍在积极维护、没有已知漏洞?
 
-### Performance Best Practices
+### 性能最佳实践
 
-- **Measure performance** using tools like Lighthouse or profiling libraries.
-- **Avoid unnecessary dependencies** that may bloat the codebase.
-- Ensure that the **code does not degrade the user experience** (e.g., by
-  increasing load times or memory consumption).
+- 使用 Lighthouse 或性能分析库等工具**测量性能**。
+- **避免不必要的依赖**,防止代码库膨胀。
+- 确保**代码不会劣化用户体验**(例如增加加载时间或内存消耗)。
 
-## Compliance and Integration
+## 合规性与集成
 
-### Alignment with the project
+### 与项目方向的一致性
 
-Are the changes consistent with the project goals and requirements? Ensure the
-PR aligns with the architecture and design principles of the project.
+改动是否符合项目的目标和要求?确保 PR 与项目的架构和设计原则保持一致。
 
-### Integration
+### 集成
 
-If the PR depends on other PRs or changes, verify that they integrate well with
-the rest of the project. Ensure the code does not cause conflicts with other
-active PRs.
+如果 PR 依赖其他 PR 或改动,请验证它们能与项目其余部分良好集成,且不会与其他活跃 PR 产生冲突。
 
-### Backward compatibility
+### 向后兼容性
 
-Does the change break compatibility with older versions of the software or
-dependencies? If so, is there a migration plan in place?
+改动是否会破坏软件旧版本或依赖的兼容性?如果会,是否有迁移方案?
 
-## Logging and Error Handling
+## 日志与错误处理
 
-### Proper error handling
+### 妥善的错误处理
 
-- Are errors properly caught and handled instead of being silently ignored?
-- Are exceptions used appropriately?
+- 错误是否被正确捕获和处理,而不是被静默忽略?
+- 异常的使用是否恰当?
 
-### Logging
+### 日志
 
-- Is sufficient logging included for debugging and monitoring?
-- Is there excessive logging that could affect performance?
+- 是否有足够的日志支持调试和监控?
+- 是否存在可能影响性能的过量日志?
 
-## Accessibility (for UI-related changes)
+## 无障碍(UI 相关改动)
 
-If the PR affects the user interface, ensure that it meets accessibility
-standards:
+如果 PR 涉及用户界面,请确保符合无障碍标准:
 
-- Can users navigate using only the keyboard?
-- Are screen readers supported?
-- Is there proper color contrast for readability?
-- Are there **WCAG** (Web Content Accessibility Guidelines) compliance issues?
-- Use tools like **Axe** or **Lighthouse** to evaluate accessibility.
+- 用户能否仅用键盘完成导航?
+- 是否支持屏幕阅读器?
+- 色彩对比度是否足以保证可读性?
+- 是否存在 **WCAG**(Web 内容无障碍指南)合规问题?
+- 使用 **Axe** 或 **Lighthouse** 等工具评估无障碍表现。
 
-## Providing Feedback
+## 提供反馈
 
-### Constructive feedback
+### 建设性反馈
 
-Provide clear, constructive feedback on what is good and what can be improved.
-If improvements are needed, be specific about what should change.
+对做得好的地方和可以改进的地方给出清晰、建设性的反馈。如果需要改进,请具体说明应当改什么。
 
-### Clarity and collaboration
+### 清晰与协作
 
-Ensure your feedback is friendly and open, so the team member who submitted the
-PR feels supported and motivated to make improvements.
+确保你的反馈友好而开放,让提交 PR 的成员感受到支持,并有动力持续改进。
 
-<details><summary><b>For Maintainers only</b> (click to expand)</summary>
+<details><summary><b>仅供维护者</b>(点击展开)</summary>
 <p>
 
-## Go/No-Go Decision
+## Go/No-Go 决策
 
-### Go
+### Go(通过)
 
-If the code has no issues and meets the project requirements, approve it (and
-possibly merge it).
+如果代码没有问题且满足项目要求,批准它(并视情况合并)。
 
-### No-Go
+### No-Go(打回)
 
-If there are significant issues, such as missing tests, security
-vulnerabilities, or performance problems, request the necessary changes before
-the PR can be approved. Some examples of **significant issues** include:
+如果存在重大问题,例如缺少测试、安全漏洞或性能问题,先请求必要的修改再批准。**重大问题**的示例包括:
 
-- Missing tests for new functionality.
-- Identified **security vulnerabilities**.
-- Code changes that break **backward compatibility** without a proper migration
-  plan.
-- Code that causes **major performance regressions** (e.g., high CPU/memory
-  usage).
+- 新功能缺少测试。
+- 发现**安全漏洞**。
+- 代码破坏**向后兼容性**且没有妥善的迁移方案。
+- 代码导致**重大性能回归**(例如 CPU/内存占用过高)。
 
-## After the Review
+## 审查之后
 
-### Reordering and merging
+### 整理与合并
 
-Once the necessary changes have been made and the PR is approved, the code can
-be merged into the main branch (e.g., `main` or `master`).
+必要的修改完成且 PR 获批后,即可将代码合并到主分支(如 `main` 或 `master`)。
 
-### Testing after merging
+### 合并后测试
 
-Ensure that the build passes after merging the PR, and re-test the functionality
-in the production environment if necessary.
+确保合并后构建通过,必要时在生产环境重新验证功能。
 
-## Follow-up
+## 后续跟进
 
-### Communication with team members
+### 与团队成员沟通
 
-If the PR has long-term technical or functional implications, communicate the
-changes to the team.
+如果 PR 有长期的技术或功能影响,请将相关变化同步给团队。
 
-### Monitoring
+### 监控
 
-Continue monitoring the production environment for any unexpected issues that
-may arise after the code has been merged.
+代码合并后,继续监控生产环境,留意可能出现的意外问题。
 
 </p>
 </details>
 
 ---
 
-This process ensures that PRs are systematically and thoroughly reviewed,
-improving overall code quality.
+这一流程确保每个 PR 都得到系统、全面的审查,从而提升整体代码质量。

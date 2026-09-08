@@ -1,57 +1,43 @@
-# Project Info
+> 🌐 本文档由 [louislam/uptime-kuma](https://github.com/louislam/uptime-kuma) 翻译,英文原版见原项目。
+>
+> 📝 注:原文超过 10000 字符,本文翻译核心章节;文末「维护者内部流程」(Docker Builder 架设、发布流程等)仅保留要点,完整细节请参阅英文原版。
 
-First of all, I want to thank everyone who has submitted issues or shared pull
-requests for Uptime Kuma. I never thought the GitHub community would be so nice!
-Because of this, I also never thought that other people would actually read and
-edit my code. Parts of the code are not very well-structured or commented, sorry
-about that.
+# 项目信息
 
-Before you start, please read our [Code of Conduct](CODE_OF_CONDUCT.md) to understand our community standards.
+首先,衷心感谢每一位为 Uptime Kuma 提交 issue 或 pull request 的朋友。我从未想过 GitHub 社区会如此友好!也正因如此,我从没料到真的会有人来阅读甚至修改我的代码——部分代码结构不够清晰、注释也不够完善,还请见谅。
 
-The project was created with `vite` and is written in `vue3`. Our backend
-lives in the `server`-directory and mostly communicates via websockets.
-Both frontend and backend share the same `package.json`.
+在开始之前,请先阅读我们的[行为准则](CODE_OF_CONDUCT.md),了解社区规范。
 
-For production, the frontend is built into the `dist`-directory and the server
-(`express.js`) exposes the `dist` directory as the root of the endpoint. For
-development, we run vite in development mode on another port.
+本项目使用 `vite` 创建,基于 `vue3` 编写。后端代码位于 `server` 目录,主要通过 websocket 通信。前端和后端共用同一个 `package.json`。
 
-## Directories
+生产环境中,前端构建产物输出到 `dist` 目录,服务器(`express.js`)将 `dist` 目录作为站点根目录对外提供。开发环境下,我们在另一个端口以开发模式运行 vite。
 
-- `config` (dev config files)
-- `data` (App data)
-- `db` (Base database and migration scripts)
-- `dist` (Frontend build)
-- `docker` (Dockerfiles)
-- `extra` (Extra useful scripts)
-- `public` (Frontend resources for dev only)
-- `server` (Server source code)
-- `src` (Frontend source code)
-- `test` (unit test)
+## 目录结构
 
-## Can I Create a Pull Request for Uptime Kuma?
+- `config`(开发配置文件)
+- `data`(应用数据)
+- `db`(基础数据库与迁移脚本)
+- `dist`(前端构建产物)
+- `docker`(Dockerfile)
+- `extra`(额外的实用脚本)
+- `public`(仅供开发使用的前端资源)
+- `server`(服务端源代码)
+- `src`(前端源代码)
+- `test`(单元测试)
 
-Whether or not you can create a pull request depends on the nature of your
-contribution. We value both your time and our maintainers' time, so we want to
-make sure it's spent efficiently.
+## 我可以为 Uptime Kuma 创建 Pull Request 吗?
 
-If you're unsure about any process or step, you're probably not the only one
-with that question—please feel free to ask. We're happy to help!
+能否提交 pull request 取决于你贡献的性质。我们珍惜你的时间,也珍惜维护者的时间,希望双方的时间都花在刀刃上。
 
-Different types of pull requests (PRs) may have different guidelines, so be sure
-to review the appropriate one for your contribution.
+如果你对任何流程或步骤有疑问,有同样疑问的人肯定不止你一个——尽管开口问,我们很乐意帮忙!
 
-- <details><summary><b>Security Fixes</b> (click to expand)</summary>
+不同类型的 pull request(PR)适用不同的准则,请务必查阅与你的贡献对应的那一条。
+
+- <details><summary><b>安全修复</b>(点击展开)</summary>
   <p>
 
-  Submitting security fixes is something that may put the community at risk.
-  Please read through our [security policy](SECURITY.md) and submit
-  vulnerabilities via an [advisory] + [issue] instead. We encourage you to
-  submit how to fix a vulnerability if you know how to, this is not required.
-  Following the security policy allows us to properly test, fix bugs. This
-  review allows us to notice, if there are any changes necessary to unrelated
-  parts like the documentation.
-  [**PLEASE SEE OUR SECURITY POLICY.**](SECURITY.md)
+  提交安全修复可能会给社区带来风险。请先阅读我们的[安全策略](SECURITY.md),并通过 [安全公告(advisory)] + [issue] 的方式提交漏洞。如果你知道如何修复,我们鼓励你一并说明,但这不是强制要求。遵循安全策略能让我们妥善测试、修复漏洞。这类审查也能让我们发现文档等无关部分是否需要相应调整。
+  [**请查阅我们的安全策略。**](SECURITY.md)
 
   [advisory]: https://github.com/louislam/uptime-kuma/security/advisories/new
   [issue]: https://github.com/louislam/uptime-kuma/issues/new?template=security_issue.yml
@@ -59,51 +45,46 @@ to review the appropriate one for your contribution.
   </p>
   </details>
 
-- <details><summary><b>Small, Non-Breaking Bug Fixes</b> (click to expand)</summary>
+- <details><summary><b>小型、非破坏性的 Bug 修复</b>(点击展开)</summary>
   <p>
 
-  If you come across a bug and think you can solve, we appreciate your work.
-  Please make sure that you follow these rules:
-  - keep the PR as small as possible, fix only one thing at a time => keeping it
-    reviewable
-  - test that your code does what you claim it does.
+  如果你发现了 bug 并且认为自己能解决,我们非常感谢你的付出。请务必遵守以下规则:
+  - PR 尽量小,一次只修一件事 => 保证可审查性
+  - 测试确认你的代码确实实现了你所说的效果。
 
-  <sub>Because maintainer time is precious, junior maintainers may merge
-  uncontroversial PRs in this area.</sub>
+  <sub>维护者的时间非常宝贵,此类无争议的 PR 可由初级维护者合并。</sub>
 
   </p>
   </details>
 
-- <details><summary><b>Translations / Internationalisation (i18n)</b> (click to expand)</summary>
+- <details><summary><b>翻译 / 国际化(i18n)</b>(点击展开)</summary>
   <p>
 
-  Please add **all** strings that are translatable to `src/lang/en.json`. If translation keys are omitted, they cannot be translated. **Do not include any other languages in your initial pull request** (even if it is your mother tongue) to avoid merge conflicts between Weblate and `master`. Once your PR is merged into `master`, the strings can be translated by awesome people donating their language skills.
+  请将**所有**可翻译的字符串添加到 `src/lang/en.json`。如果遗漏了翻译键,这些文案就无法被翻译。**首次 PR 中不要包含任何其他语言** (即使那是你的母语),以避免 Weblate 与 `master` 之间的合并冲突。PR 合入 `master` 后,这些字符串就可以由慷慨贡献语言能力的朋友们来翻译了。
 
-  We use Weblate to localise this project into many languages. If you want to help translate Uptime Kuma into your language, please see [these instructions on how to translate using Weblate](https://github.com/louislam/uptime-kuma/blob/master/src/lang/README.md).
+  我们使用 Weblate 将本项目本地化为多种语言。如果你想帮忙把 Uptime Kuma 翻译成你的语言,请参阅[这份 Weblate 翻译指南](https://github.com/louislam/uptime-kuma/blob/master/src/lang/README.md)。
 
-  There are some cases where a change cannot be done directly in Weblate and requires a PR:
-  - A text may not yet be localisable. In this case, **adding a new language key** via `{{ $t("Translation key") }}` or [`<i18n-t keypath="Translation key">`](https://vue-i18n.intlify.dev/guide/advanced/component.html) might be necessary.
-  - Language keys need to be **added to `en.json`** to appear in Weblate. If this has not been done, a PR is appreciated.
-  - **Adding a new language** requires creating a new file. See [these instructions](https://github.com/louislam/uptime-kuma/blob/master/src/lang/README.md).
+  有些改动无法直接在 Weblate 中完成,需要通过 PR:
+  - 某段文案可能尚未接入本地化。此时可能需要通过 `{{ $t("Translation key") }}` 或 [`<i18n-t keypath="Translation key">`](https://vue-i18n.intlify.dev/guide/advanced/component.html) **新增语言键**。
+  - 语言键必须**添加到 `en.json`** 才会出现在 Weblate 中。如果还没添加,欢迎提交 PR。
+  - **新增一门语言**需要创建新文件,参见[这些说明](https://github.com/louislam/uptime-kuma/blob/master/src/lang/README.md)。
 
-  <sub>Because maintainer time is precious, junior maintainers may merge uncontroversial PRs in this area.</sub>
+  <sub>维护者的时间非常宝贵,此类无争议的 PR 可由初级维护者合并。</sub>
 
   </p>
   </details>
 
-- <details><summary><b>New Notification Providers</b> (click to expand)</summary>
+- <details><summary><b>新的通知渠道</b>(点击展开)</summary>
   <p>
 
-  To set up a new notification provider these files need to be modified/created:
-  - `server/notification-providers/PROVIDER_NAME.js` is where the heart of the
-    notification provider lives.
+  添加一个新的通知渠道需要修改/创建以下文件:
+  - `server/notification-providers/PROVIDER_NAME.js` 是通知渠道的核心逻辑所在。
 
-        - Both `monitorJSON` and `heartbeatJSON` can be `null` for some events. If
+        - `monitorJSON` 和 `heartbeatJSON` 在某些事件下可能为 `null`。如果
 
-  both are `null`, this is a general testing message, but if just
-  `heartbeatJSON` is `null` this is a certificate expiry.
+  两者都为 `null`,这是一条通用测试消息;如果只有 `heartbeatJSON` 为 `null`,则这是一次证书到期事件。
 
-        - Please wrap the axios call into a
+        - 请将 axios 调用包裹在
 
   ```js
   try {
@@ -114,42 +95,28 @@ to review the appropriate one for your contribution.
   }
   ```
 
-  - `server/notification.js` is where the backend of the notification provider
-    needs to be registered. _If you have an idea how we can skip this step, we
-    would love to hear about it ^^_
+  - `server/notification.js` 需要在后端注册该通知渠道。_如果你有办法让我们跳过这一步,非常乐意听听你的想法 ^^_
 
-  - `src/components/NotificationDialog.vue` you need to decide if the provider
-    is a regional or a global one and add it with a name to the respective list
+  - `src/components/NotificationDialog.vue` 你需要判断该渠道是地区性的还是全球性的,并将其连同名称添加到对应的列表中。
 
-  - `src/components/notifications/PROVIDER_NAME.vue` is where the frontend of
-    each provider lives. Please make sure that you have:
+  - `src/components/notifications/PROVIDER_NAME.vue` 是每个渠道的前端部分。请确保:
+    - 密钥类凭据使用了 `HiddenInput`
+    - 提供了所有必要的帮助文本/占位符等,确保新用户能轻松完成配置
+    - 将所有翻译(`{{ $t("Translation key") }}`、[`i18n-t keypath="Translation key">`](https://vue-i18n.intlify.dev/guide/advanced/component.html))写入 `src/lang/en.json`,让翻译者可以翻译这些文案
 
-        - used `HiddenInput` for secret credentials
-        - included all the necessary helptexts/placeholder/.. to make sure the
+  - `src/components/notifications/index.js` 需要在前端注册该渠道。_如果你有办法让我们跳过这一步,非常乐意听听你的想法 ^^_
 
-  notification provider is simple to setup for new users. - include all
-  translations (`{{ $t("Translation key") }}`,
-  [`i18n-t keypath="Translation key">`](https://vue-i18n.intlify.dev/guide/advanced/component.html))
-  in `src/lang/en.json` to enable our translators to translate this
-  - `src/components/notifications/index.js` is where the frontend of the
-    provider needs to be registered. _If you have an idea how we can skip this
-    step, we would love to hear about it ^^_
+  通知功能接近 Uptime Kuma 作为在线状态监控工具的核心。因此确保通知真正可用非常重要。由于测试通知渠道相当耗时,我们通常把这项工作交给贡献该渠道的人来完成。
 
-  Offering notifications is close to the core of what we are as an uptime
-  monitor. Therefore, making sure that they work is also really important.
-  Because testing notification providers is quite time intensive, we mostly
-  offload this onto the person contributing a notification provider.
-
-  To make sure you have tested the notification provider, please include
-  screenshots of the following events in the pull-request description:
+  为证明你已经测试过该通知渠道,请在 PR 描述中附上以下事件的截图:
   - `UP`/`DOWN`
-  - Certificate Expiry via <https://expired.badssl.com/>
-  - Domain Expiry via <https://google.com/> and a larger time set
-  - Testing (the test button on the notification provider setup page)
+  - 通过 <https://expired.badssl.com/> 触发的证书到期
+  - 通过 <https://google.com/> 与较长时限触发的域名到期
+  - 测试(通知渠道配置页上的测试按钮)
 
   <br/>
 
-  Using the following way to format this is encouraged:
+  建议使用如下格式组织:
 
   ```md
   | Event              | Before                | After                |
@@ -161,407 +128,276 @@ to review the appropriate one for your contribution.
   | Testing            | ![Before](image-link) | ![After](image-link) |
   ```
 
-  <sub>Because maintainer time is precious, junior maintainers may merge
-  uncontroversial PRs in this area.</sub>
+  <sub>维护者的时间非常宝贵,此类无争议的 PR 可由初级维护者合并。</sub>
 
   </p>
   </details>
 
-- <details><summary><b>New Monitoring Types</b> (click to expand)</summary>
+- <details><summary><b>新的监控类型</b>(点击展开)</summary>
   <p>
 
-  To set up a new notification provider these files need to be modified/created:
-  - `server/monitor-types/MONITORING_TYPE.js` is the core of each monitor.
-    The `async check(...)`-function should:
-    - in the happy-path: set `heartbeat.msg` to a successful message and set `heartbeat.status = UP`
-    - in the unhappy-path: throw an `Error` for each fault that is detected with an actionable error message.
-    - NEVER set `heartbeat.status = DOWN` unless you want to explicitly ignore retries.
+  添加一个新的监控类型需要修改/创建以下文件:
+  - `server/monitor-types/MONITORING_TYPE.js` 是每种监控的核心。`async check(...)` 函数应当:
+    - 正常路径:将 `heartbeat.msg` 设为成功消息,并设置 `heartbeat.status = UP`
+    - 异常路径:每检测到一个故障,就抛出一个带有可操作错误信息的 `Error`。
+    - 除非你想显式跳过重试,否则**绝不**要设置 `heartbeat.status = DOWN`。
 
-  - `server/uptime-kuma-server.js` is where the monitoring backend needs to be
-    registered. _If you have an idea how we can skip this step, we would love to
-    hear about it ^^_
+  - `server/uptime-kuma-server.js` 需要在后端注册该监控类型。_如果你有办法让我们跳过这一步,非常乐意听听你的想法 ^^_
 
-  - `src/pages/EditMonitor.vue` is the shared frontend users interact with.
-    Please make sure that you have: - used `HiddenInput` for secret
-    credentials - included all the necessary helptexts/placeholder/.. to make
-    sure the notification provider is simple to setup for new users. - include
-    all translations (`{{ $t("Translation key") }}`,
-    [`<i18n-t keypath="Translation key">`](https://vue-i18n.intlify.dev/guide/advanced/component.html))
-    in `src/lang/en.json` to enable our translators to translate this
+  - `src/pages/EditMonitor.vue` 是用户交互的共用前端。请确保:
+    - 密钥类凭据使用了 `HiddenInput`
+    - 提供了所有必要的帮助文本/占位符等,确保新用户能轻松完成配置
+    - 将所有翻译(`{{ $t("Translation key") }}`、[`<i18n-t keypath="Translation key">`](https://vue-i18n.intlify.dev/guide/advanced/component.html))写入 `src/lang/en.json`,让翻译者可以翻译这些文案
 
-  <sub>Because maintainer time is precious, junior maintainers may merge
-  uncontroversial PRs in this area.</sub>
+  <sub>维护者的时间非常宝贵,此类无争议的 PR 可由初级维护者合并。</sub>
 
   </p>
   </details>
 
-- <details><summary><b>New Features / Major Changes / Breaking Bugfixes</b> (click to expand)</summary>
+- <details><summary><b>新功能 / 重大改动 / 破坏性 Bug 修复</b>(点击展开)</summary>
   <p>
 
-  be sure to **create an empty draft pull request or open an issue, so we can
-  have a discussion first**.
-  This is especially important for large pull requests or when you don't know if it will be merged or not.
-  When adding new features, please also add tests to ensure your changes work as expected and to prevent future regressions.
+  请务必**先创建一个空的草稿 pull request 或开一个 issue,让我们先讨论**。
+  这对于大型 PR 尤其重要,或者当你不确定它是否会被合并时也是如此。
+  新增功能时,请同时补充测试,以确保改动符合预期,并防止将来出现回归。
 
-  <sub>Because of the large impact of this work, only senior maintainers may
-  merge PRs in this area. </sub>
+  <sub>由于此类工作影响面大,只有资深维护者可以合并该领域的 PR。</sub>
 
   </p>
   </details>
 
-- <details><summary><b>As a First-Time Contributor</b> (click to expand)</summary>
+- <details><summary><b>作为首次贡献者</b>(点击展开)</summary>
   <p>
 
-  Contributing is easy and fun. We will guide you through the process:
-  1. **Fork** the [Uptime-Kuma repository](https://github.com/louislam/uptime-kuma/) and **clone** it to your local machine.
-  2. **Create a new branch** for your changes (e.g., `signal-notification-provider`).
-  3. **Make your changes** and **commit** them with a clear message.
-  4. **Push** your changes to your forked repository.
-  5. **Open a pull request** to the `master` branch of the Uptime Kuma repository.
-     - For large changes, please open a **draft pull request** first to discuss the changes with the maintainers.
-  6. **Provide a clear and concise description** of the changes you've made and link any related issues.
-  7. **Complete the PR checklist** and make sure all CI checks pass.
-  8. **Request a review** when your pull request is ready.
+  贡献代码简单又有趣,我们会引导你完成整个流程:
+  1. **Fork** [Uptime Kuma 仓库](https://github.com/louislam/uptime-kuma/)并 **clone** 到本地。
+  2. 为你的改动**新建一个分支**(例如 `signal-notification-provider`)。
+  3. **完成修改**并用清晰的提交信息进行 **commit**。
+  4. 将改动 **push** 到你 fork 的仓库。
+  5. 向 Uptime Kuma 仓库的 `master` 分支**发起 pull request**。
+     - 大型改动请先开一个**草稿 PR**,与维护者讨论。
+  6. **提供清晰简洁的改动说明**,并关联相关 issue。
+  7. **完成 PR 检查清单**,确保所有 CI 检查通过。
+  8. PR 就绪后**请求审查**。
 
-  ## When Can You Change the PR Status to "Ready for Review"?
+  ## 什么时候可以把 PR 状态改为 "Ready for Review"?
 
-  A PR should remain in **draft status** until all tasks are completed.
-  Only change the status to **Ready for Review** when:
-  - You have implemented all planned changes.
-  - Your code is fully tested and ready for review.
-  - You have updated or created the necessary tests.
-  - You have verified that CI/CD checks pass successfully.
+  在所有任务完成之前,PR 应保持**草稿状态**。只有满足以下条件时才改为 **Ready for Review**:
+  - 你已实现全部计划中的改动。
+  - 代码已充分测试,可以进入审查。
+  - 你已更新或补齐了必要的测试。
+  - 你已确认 CI/CD 检查全部通过。
 
-  A volunteer maintainer will review your PR as soon as possible.
-  You can help us by reviewing other PRs or taking a look at open issues.
+  志愿维护者会尽快审查你的 PR。你也可以通过审查其他 PR 或认领 open issue 来帮助我们。
 
-## The following rules are essential for making your PR mergeable
+## 以下规则是让你的 PR 被合并的关键
 
-- Merging multiple issues by a huge PR is more difficult to review and causes
-  conflicts with other PRs. Please
-  - (if possible) **create one PR for one issue** or
-  - (if not possible) **explain which issues a PR addresses and why this PR
-    should not be broken apart**
+- 用一个巨型 PR 同时合并多个 issue 会更难审查,也容易与其他 PR 冲突。请:
+  - (如有可能)**一个 issue 对应一个 PR**;或
+  - (实在不行)**说明该 PR 解决了哪些 issue,以及为什么不应拆分**
 
-- Make sure your **PR passes our continuous integration**. PRs will not be
-  merged unless all CI-Checks are green.
-- **Breaking changes** (unless for a good reason and discussed beforehand) will
-  not get merged / not get merged quickly. Such changes require a major version
-  release.
-- **Test your code** before submitting a PR. Buggy PRs will not be merged.
-- Make sure the **UI/UX is close to Uptime Kuma**.
-- **Think about the maintainability**: Don't add functionality that is
-  completely **out of scope**. Keep in mind that we need to be able to maintain
-  the functionality.
-- Don't modify or delete existing logic without a valid reason.
-- Don't convert existing code into other programming languages for no reason.
+- 确保你的 **PR 通过持续集成**。所有 CI 检查不绿,PR 不会被合并。
+- **破坏性改动**(除非有充分理由且事先讨论过)不会被合并 / 不会很快被合并。此类改动需要发布大版本。
+- 提交 PR 前**请测试你的代码**。有 bug 的 PR 不会被合并。
+- 确保 **UI/UX 与 Uptime Kuma 风格一致**。
+- **考虑可维护性**:不要添加完全**超出范围**的功能。记住,这些功能将来都需要有人维护。
+- 没有充分理由,不要修改或删除现有逻辑。
+- 没有理由,不要把现有代码改写成其他编程语言。
 
-### Continuous Integration
+### 持续集成
 
-All pull requests must pass our continuous integration checks. These checks include:
+所有 PR 必须通过持续集成检查,包括:
 
-- **Linting**: We use ESLint and Stylelint for code quality checks. You can run the linter locally with `npm run lint`.
-- **Formatting**: We use Prettier for code formatting. You can format your code with `npm run fmt` (or CI will do this for you)
-- **Testing**: We use Playwright for end-to-end tests and have a suite of backend tests. You can run the tests locally with `npm test`.
+- **代码检查(Lint)**:我们使用 ESLint 和 Stylelint 检查代码质量,可在本地运行 `npm run lint`。
+- **代码格式化**:我们使用 Prettier 格式化代码,可运行 `npm run fmt`(CI 也会自动执行)。
+- **测试**:我们使用 Playwright 做端到端测试,并有一套后端测试。可在本地运行 `npm test`。
 
-I ([@louislam](https://github.com/louislam)) have the final say.
-If your pull request does not meet my expectations, I will reject it, no matter how much time
-you spent on it.
+最终决定权在我([@louislam](https://github.com/louislam))。
+如果你的 PR 没有达到我的预期,无论你花了多少时间,我都会拒绝它。
 
-We will assign your pull request to a [milestone](https://github.com/louislam/uptime-kuma/milestones), if we plan to review and merge it.
+如果我们计划审查并合并你的 PR,会将其分配到对应的 [milestone](https://github.com/louislam/uptime-kuma/milestones)。
 
-Please don't rush or ask for an ETA.
-We have to understand the pull request, make sure it has no breaking changes and stick to the vision of this project, especially for large pull requests.
+请不要催促,也不要询问预计完成时间。
+我们必须先理解 PR,确认它没有破坏性改动,并且符合项目的整体规划——大型 PR 尤其如此。
 
-## I'd Like to Work on an Issue. How Do I Do That?
+## 我想认领某个 issue,该怎么做?
 
-We have found that assigning people to issues is unnecessary management
-overhead. Instead, a short comment stating that you want to work on an issue is
-appreciated, as it saves time for other developers. If you encounter any
-problems during development, feel free to leave a comment describing what you
-are stuck on. We are here to help.
+我们发现给 issue 指派负责人是不必要的管理开销。更好的做法是留一条简短评论说明你打算处理它,这样能为其他开发者节省时间。如果开发过程中遇到问题,也欢迎留言描述你卡在哪里,我们会帮忙。
 
-## Project Style
+## 项目风格
 
-I personally do not like something that requires a lot of configuration before
-you can finally start the app. The goal is to make the Uptime Kuma installation
-as easy as installing a mobile app.
+我个人不喜欢那种启动应用前要做一大堆配置的东西。我们的目标是让安装 Uptime Kuma 像安装手机 App 一样简单。
 
-- Easy to install for non-Docker users
-  - no native build dependency is needed (for `x86_64`/`armv7`/`arm64`)
-  - no extra configuration and
-  - no extra effort required to get it running
+- 非 Docker 用户安装简单
+  - 无需原生编译依赖(`x86_64`/`armv7`/`arm64`)
+  - 无需额外配置
+  - 无需额外操作即可运行
 
-- Single container for Docker users
-  - no complex docker-compose file
-  - mapping the volume and exposing the port should be the only requirements
+- Docker 用户单容器即可
+  - 不需要复杂的 docker-compose 文件
+  - 挂载卷和暴露端口应当是仅有的要求
 
-- Settings should be configurable in the frontend. Environment variables are
-  discouraged, unless it is related to startup such as `DATA_DIR`
-- Easy to use
-- The web UI styling should be consistent and nice
+- 设置应尽量在前端配置。不推荐使用环境变量,除非与启动相关,例如 `DATA_DIR`
+- 易于使用
+- Web UI 风格应统一美观
 
-## Coding Styles
+## 编码风格
 
-- 4 spaces indentation
-- Follow `.editorconfig`
-- Follow ESLint
-- Methods and functions should be documented with JSDoc
+- 4 空格缩进
+- 遵循 `.editorconfig`
+- 遵循 ESLint
+- 方法和函数应使用 JSDoc 注释
 
-## Name Conventions
+## 命名规范
 
-- Javascript/Typescript: camelCaseType
-- SQLite: snake_case (Underscore)
-- CSS/SCSS: kebab-case (Dash)
+- Javascript/Typescript:camelCaseType(小驼峰)
+- SQLite:snake_case(下划线)
+- CSS/SCSS:kebab-case(短横线)
 
-## Tools
+## 工具
 
 - [`Node.js`](https://nodejs.org/) >= 20.4.0
 - [`npm`](https://www.npmjs.com/) >= 9.3
 - [`git`](https://git-scm.com/)
-- IDE that supports [`ESLint`](https://eslint.org/) and EditorConfig (I am using
+- 支持 [`ESLint`](https://eslint.org/) 和 EditorConfig 的 IDE(我在用
   [`IntelliJ IDEA`](https://www.jetbrains.com/idea/))
-- A SQLite GUI tool (f.ex.
-  [`SQLite Expert Personal`](https://www.sqliteexpert.com/download.html) or
+- 一款 SQLite 图形化工具(例如
+  [`SQLite Expert Personal`](https://www.sqliteexpert.com/download.html) 或
   [`DBeaver Community`](https://dbeaver.io/download/))
 
-## Git Branches
+## Git 分支
 
-- `master`: 2.X.X development. If you want to add a new feature, your pull
-  request should base on this.
-- `1.23.X`: 1.23.X development. If you want to fix a bug for v1 and v2, your
-  pull request should base on this.
-- All other branches are unused, outdated or for dev.
+- `master`:2.X.X 开发分支。新增功能的 PR 应基于此分支。
+- `1.23.X`:1.23.X 开发分支。如果要同时修复 v1 和 v2 的 bug,PR 应基于此分支。
+- 其他分支均未使用、已过时或仅用于开发。
 
-## Install Dependencies for Development
+## 安装开发依赖
 
 ```bash
 npm ci
 ```
 
-## Dev Server
+## 开发服务器
 
-We can start the frontend dev server and the backend dev server in one command.
+一条命令即可同时启动前端和后端开发服务器。
 
-Port `3000` and port `3001` will be used.
+会占用 3000 端口和 3001 端口。
 
 ```bash
 npm run dev
 ```
 
-But sometimes you may want to restart the server without restarting the
-frontend. In that case, you can run these commands in two terminals:
+但有时你可能想重启后端而不重启前端。这时可以在两个终端分别运行:
 
 ```bash
 npm run start-frontend-dev
 npm run start-server-dev
 ```
 
-## Backend Server
+## 后端服务器
 
-It binds to `0.0.0.0:3001` by default.
+默认绑定 `0.0.0.0:3001`。
 
-The backend is an `express.js` server with `socket.io` integrated. It uses
-`socket.io` to communicate with clients, and most server logic is encapsulated
-in the `socket.io` handlers. `express.js` is also used to serve:
+后端是一个集成了 `socket.io` 的 `express.js` 服务器。它使用 `socket.io` 与客户端通信,大部分服务端逻辑都封装在 `socket.io` 处理器中。`express.js` 同时还负责:
 
-- as an entry point for redirecting to a status page or the dashboard
-- the frontend built files (`index.html`, `*.js`, `*.css`, etc.)
-- internal APIs of the status page
+- 作为入口,重定向到状态页或仪表盘
+- 提供前端构建产物(`index.html`、`*.js`、`*.css` 等)
+- 提供状态页的内部 API
 
-### Structure in `/server/`
+### `/server/` 目录结构
 
-- `jobs/` (Jobs that are running in another process)
-- `model/` (Object model, auto-mapping to the database table name)
-- `modules/` (Modified 3rd-party modules)
-- `monitor_types/` (Monitor Types)
-- `notification-providers/` (individual notification logic)
-- `routers/` (Express Routers)
-- `socket-handler/` (Socket.io Handlers)
-- `server.js` (Server entry point)
-- `uptime-kuma-server.js` (UptimeKumaServer class, main logic should be here,
-  but some still in `server.js`)
+- `jobs/`(在独立进程中运行的任务)
+- `model/`(对象模型,自动映射到数据库表名)
+- `modules/`(经过修改的第三方模块)
+- `monitor_types/`(监控类型)
+- `notification-providers/`(各通知渠道的具体逻辑)
+- `routers/`(Express 路由)
+- `socket-handler/`(Socket.io 处理器)
+- `server.js`(服务器入口)
+- `uptime-kuma-server.js`(UptimeKumaServer 类,主要逻辑应在此,但仍有部分留在 `server.js`)
 
-## Frontend Dev Server
+## 前端开发服务器
 
-It binds to `0.0.0.0:3000` by default. The frontend dev server is used for
-development only.
+默认绑定 `0.0.0.0:3000`。前端开发服务器仅供开发使用。
 
-For production, it is not used. It will be compiled to `dist` directory instead via `npm run build`.
+生产环境不使用它,而是通过 `npm run build` 编译到 `dist` 目录。
 
-You can use Vue.js devtools Chrome extension for debugging.
+调试时可以使用 Vue.js devtools Chrome 扩展。
 
-### Frontend Details
+### 前端细节
 
-Uptime Kuma Frontend is a single page application (SPA). Most paths are handled
-by Vue Router.
+Uptime Kuma 前端是单页应用(SPA),大部分路径由 Vue Router 处理。
 
-The router is in `src/router.js`
+路由定义在 `src/router.js`。
 
-Most data in the frontend is stored at the root level, even though the router can navigate to different pages.
+尽管路由可以跳转到不同页面,前端的大部分数据都存放在根层级。
 
-The data and socket logic are in `src/mixins/socket.js`.
+数据与 socket 逻辑位于 `src/mixins/socket.js`。
 
-## Database Migration
+## 数据库迁移
 
-See: <https://github.com/louislam/uptime-kuma/tree/master/db/knex_migrations>
+参见:<https://github.com/louislam/uptime-kuma/tree/master/db/knex_migrations>
 
-## Unit Test
+## 单元测试
 
-To run unit tests, use the following command:
+运行单元测试使用以下命令:
 
 ```bash
 npm run build
 npm test
 ```
 
-## Dependencies
+## 依赖
 
-Both frontend and backend share the same `package.json`.
-However, the frontend dependencies are eventually not used in the production environment, because it
-is usually also baked into `dist` files. So:
+前端和后端共用同一个 `package.json`。但前端的依赖最终不会出现在生产环境中,因为它们通常已被打包进 `dist` 文件。所以:
 
-- Frontend dependencies = "devDependencies"
-  - Examples: - `vue`, `chart.js`
-- Backend dependencies = "dependencies"
-  - Examples: `socket.io`, `sqlite3`
-- Development dependencies = "devDependencies"
-  - Examples: `eslint`, `sass`
+- 前端依赖 = "devDependencies"
+  - 例如: - `vue`、`chart.js`
+- 后端依赖 = "dependencies"
+  - 例如:`socket.io`、`sqlite3`
+- 开发依赖 = "devDependencies"
+  - 例如:`eslint`、`sass`
 
-### Update Dependencies
+### 更新依赖
 
-Since previously updating Vite 2.5.10 to 2.6.0 broke the application completely,
-from now on, it should update the patch release version only.
+此前把 Vite 从 2.5.10 升级到 2.6.0 曾导致应用彻底崩溃,因此从现在起只允许更新补丁版本。
 
-Patch release = the third digit ([Semantic Versioning](https://semver.org/))
+补丁版本 = 语义化版本中的第三位([Semantic Versioning](https://semver.org/))
 
-If for security / bug / other reasons, a library must be updated, breaking
-changes need to be checked by the person proposing the change.
+如果出于安全 / bug / 其他原因必须跨版本升级某个库,提出改动的人需要自行检查破坏性变更。
 
-## Spelling & Grammar
+## 拼写与语法
 
-Feel free to correct the spelling and grammar in the documentation or code.
-English is not the native language of the maintainers.
+欢迎随时纠正文档或代码中的拼写和语法错误——维护者的母语并不是英语。
 
 ## Wiki
 
-Since there is no way to make a pull request to the wiki, I have set up another
-repo to do that.
+由于 wiki 无法通过 pull request 修改,我另建了一个仓库来管理它。
 
 <https://github.com/louislam/uptime-kuma-wiki>
 
-## Maintainer
+## 维护者
 
-### What is a maintainer and what are their roles?
+### 什么是维护者?他们负责什么?
 
-This project has multiple maintainers who specialise in different areas.
-Currently, there are 3 maintainers:
+本项目有多名维护者,各自专注不同领域。目前共有 3 位:
 
-| Person            | Role              | Main Area        |
-| ----------------- | ----------------- | ---------------- |
-| `@louislam`       | senior maintainer | major features   |
-| `@chakflying`     | junior maintainer | fixing bugs      |
-| `@commanderstorm` | junior maintainer | issue-management |
+| 人员              | 角色       | 主要领域     |
+| ----------------- | ---------- | ------------ |
+| `@louislam`       | 资深维护者 | 主要功能     |
+| `@chakflying`     | 初级维护者 | 修复 bug     |
+| `@commanderstorm` | 初级维护者 | issue 管理   |
 
-### Procedures
+### 内部流程
 
-We have a few procedures we follow. These are documented here:
+维护者遵循若干内部流程(英文原版含完整步骤),此处仅保留要点:
 
-- <details><summary><b>Set up a Docker Builder</b> (click to expand)</summary>
-  <p>
-  - amd64, armv7 using local.
-  - arm64 using remote arm64 cpu, as the emulator is too slow and can no longer
-    pass the `npm ci` command.
-  1. Add the public key to the remote server.
-  2. Add the remote context. The remote machine must be arm64 and installed
-     Docker CE.
+- **架设 Docker Builder**:amd64 与 armv7 使用本地构建;arm64 使用远程 arm64 真机(emulator 太慢,`npm ci` 已无法通过)。核心命令为 `docker context create` 添加远程上下文,再用 `docker buildx create --name kuma-builder --platform linux/amd64,linux/arm/v7` 创建并 `--append` 追加远程 arm64 上下文,最后 `docker buildx inspect --bootstrap` 验证。
+- **正式发布**:起草 release note → 确认仓库干净 → 如健康检查有更新需先 `npm run build-docker-builder-go` 重新编译 → 以 `VERSION` 和 `GITHUB_TOKEN` 环境变量运行 `npm run release-final` → 按提示继续 → `git push` → 以 `1.X.X` 发布 release note → `npm run deploy-demo-server` 部署演示站。事后需检查 Docker Hub 各标签,并用 1.X.X 标签做全新安装测试(amd64 / arm64 / armv7 及 Node.js 纯安装)。
+- **Beta 发布**:起草 release note 并勾选 `This is a pre-release` → 确认仓库干净 → 以 `VERSION` 和 `GITHUB_TOKEN` 运行 `npm run release-beta` → 以 `1.X.X-beta.X` 发布。
+- **发布 Wiki**:`git clone https://github.com/louislam/uptime-kuma-wiki.git` 后添加 `production` 远端指向 `https://github.com/louislam/uptime-kuma.wiki.git`,再用 `git push production master` 推送。
+- **变更 PR 基分支**(如 `master` 改为 `1.23.X`):
 
-  ```bash
-  docker context create oracle-arm64-jp --docker "host=ssh://root@100.107.174.88"
-  ```
-
-  3. Create a new builder.
-
-     ```bash
-     docker buildx create --name kuma-builder --platform linux/amd64,linux/arm/v7
-     docker buildx use kuma-builder
-     docker buildx inspect --bootstrap
-     ```
-
-  4. Append the remote context to the builder.
-
-     ```bash
-     docker buildx create --append --name kuma-builder --platform linux/arm64 oracle-arm64-jp
-     ```
-
-  5. Verify the builder and check if the builder is using `kuma-builder`.
-     `docker buildx inspect kuma-builder docker buildx ls`
-
-  </p>
-  </details>
-
-- <details><summary><b>Release</b> (click to expand)</summary>
-  <p>
-  1. Draft a release note
-  2. Make sure the repo is cleared
-  3. If the healthcheck is updated, remember to re-compile it:
-     `npm run build-docker-builder-go`
-  4. `npm run release-final` with env vars: `VERSION` and `GITHUB_TOKEN`
-  5. Wait until the `Press any key to continue`
-  6. `git push`
-  7. Publish the release note as `1.X.X`
-  8. Press any key to continue
-  9. Deploy to the demo server: `npm run deploy-demo-server`
-
-  These Items need to be checked:
-  - [ ] Check all tags is fine on
-        <https://hub.docker.com/r/louislam/uptime-kuma/tags>
-  - [ ] Try the Docker image with tag 1.X.X (Clean install / amd64 / arm64 /
-        armv7)
-  - [ ] Try clean installation with Node.js
-
-  </p>
-  </details>
-
-- <details><summary><b>Release Beta</b> (click to expand)</summary>
-  <p>
-  1. Draft a release note, check `This is a pre-release`
-  2. Make sure the repo is cleared
-  3. `npm run release-beta` with env vars: `VERSION` and `GITHUB_TOKEN`
-  4. Wait until the `Press any key to continue`
-  5. Publish the release note as `1.X.X-beta.X`
-  6. Press any key to continue
-
-  </p>
-  </details>
-
-- <details><summary><b>Release Wiki</b> (click to expand)</summary>
-  <p>
-
-  **Setup Repo**
-
-  ```bash
-  git clone https://github.com/louislam/uptime-kuma-wiki.git
-  cd uptime-kuma-wiki
-  git remote add production https://github.com/louislam/uptime-kuma.wiki.git
-  ```
-
-  **Push to Production Wiki**
-
-  ```bash
-  git pull
-  git push production master
-  ```
-
-  </p>
-  </details>
-
-- <details><summary>Change the base of a pull request such as <code>master</code> to <code>1.23.X</code> (click to expand)</summary>
-  <p>
-
-  ```bash
-  git rebase --onto <new parent> <old parent>
-  ```
-
-  </p>
-  </details>
+```bash
+git rebase --onto <new parent> <old parent>
+```
