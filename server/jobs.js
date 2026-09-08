@@ -1,3 +1,9 @@
+/**
+ * 后台定时任务模块(汉化注释说明)。
+ * 使用 croner 按服务器时区调度定时任务:
+ * - clear-old-data:每日 03:14 清理旧的监控数据;
+ * - incremental-vacuum:每 5 分钟对 SQLite 执行一次增量空间回收。
+ */
 const { UptimeKumaServer } = require("./uptime-kuma-server");
 const { clearOldData } = require("./jobs/clear-old-data");
 const { incrementalVacuum } = require("./jobs/incremental-vacuum");

@@ -1,11 +1,17 @@
+/**
+ * 服务器全局配置模块(汉化注释说明)。
+ * 汇总命令行参数与环境变量,解析出监听地址(hostname)、端口(port)、
+ * SSL 证书/私钥/口令、是否启用 SSL 以及本地 WebSocket 地址等配置项。
+ * 优先级:命令行参数 > UPTIME_KUMA_* 环境变量 > 通用环境变量 > 默认值(端口 3001)。
+ */
 const isFreeBSD = /^freebsd/.test(process.platform);
 
-// Interop with browser
+// 与浏览器环境互操作:在浏览器侧(无 process 对象)时参数为空对象
 const args = typeof process !== "undefined" ? require("args-parser")(process.argv) : {};
 
-// If host is omitted, the server will accept connections on the unspecified IPv6 address (::) when IPv6 is available and the unspecified IPv4 address (0.0.0.0) otherwise.
-// Dual-stack support for (::)
-// Also read HOST if not FreeBSD, as HOST is a system environment variable in FreeBSD
+// 若未指定 host,服务器将在 IPv6 可用时监听未指定地址 (::),否则监听 0.0.0.0。
+// 支持双栈 (::)
+// 非 FreeBSD 系统同时读取 HOST 环境变量;FreeBSD 中 HOST 是系统内置变量,故跳过
 let hostEnv = isFreeBSD ? null : process.env.HOST;
 const hostname = args.host || process.env.UPTIME_KUMA_HOST || hostEnv;
 
